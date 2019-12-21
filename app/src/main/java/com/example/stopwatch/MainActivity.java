@@ -2,6 +2,7 @@ package com.example.stopwatch;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -44,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public void onFinish() {
+                    MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.airhorn);
+                    mediaPlayer.start();
                     controlButton.setText("START!");
                     controlButton.setTag("ready");
                     seekBar.setVisibility(View.VISIBLE);
