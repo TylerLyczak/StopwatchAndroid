@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
+    // Global vars for each view in the app
     SeekBar seekBar;
     TextView timeText;
     CountDownTimer countDownTimer;
@@ -22,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
         String butStr = controlButton.getTag().toString();
 
+        // Reads the tag of the button to determine the function
         if (butStr.compareTo("run") == 0)  {
             seekBar.setVisibility(View.VISIBLE);
             controlButton.setText("START!");
@@ -32,13 +34,11 @@ public class MainActivity extends AppCompatActivity {
             seekBar.setVisibility(View.INVISIBLE);
             controlButton.setText("STOP!");
             controlButton.setTag("run");
-            Log.i("time to use: ", String.valueOf(countTime));
 
             // start the timer
             countDownTimer = new CountDownTimer(countTime, 1000) {
                 @Override
                 public void onTick(long millisUntilFinished) {
-                    Log.i("millis: ", Long.toString(millisUntilFinished));
                     changeText(((int) millisUntilFinished/1000), timeText);
                 }
 
@@ -47,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
                     controlButton.setText("START!");
                     controlButton.setTag("ready");
                     seekBar.setVisibility(View.VISIBLE);
-                    Log.i("FINISHED", "FDSAFDSAFSAD");
                 }
             }.start();
         }
@@ -59,7 +58,20 @@ public class MainActivity extends AppCompatActivity {
     public void changeText (int num, TextView text) {
         int minutes = num/60;
         int seconds = num - minutes * 60;
-        String time = Integer.toString(minutes) + ":" + Integer.toString(seconds);
+
+        // Fixes the format for the text view
+        String secondsStr = Integer.toString(seconds);
+        String minutesStr = Integer.toString(minutes);
+
+        if (seconds < 10)   {
+            secondsStr = "0" + secondsStr;
+        }
+
+        if (minutes < 10)   {
+            minutesStr = "0" + minutesStr;
+        }
+
+        String time = minutesStr + ":" + secondsStr;
         text.setText(time);
     }
 
@@ -68,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Sets the max of the seekbar
         seekBar = (SeekBar) findViewById(R.id.seekBar);
         seekBar.setMax(3600);
         seekBar.setProgress(1);
